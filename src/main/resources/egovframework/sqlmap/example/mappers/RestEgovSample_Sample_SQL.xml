@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.hit.blvl.sample.service.impl.RestSampleMapper">
+
+    <select id="selectRestSampleList" parameterType="HashMap" resultType="HashMap">
+		select name
+			, age
+			, description
+			, use_yn
+		from sample
+		where 1=1
+		<if test="name != null and name != ''">
+		and name = #{name}
+		</if>
+        <if test="age != null and age != ''">
+        and age = #{age}
+        </if>
+        <if test="use_yn != null and use_yn != ''">
+        and use_yn = #{use_yn}
+        </if>
+    </select>
+    
+</mapper>

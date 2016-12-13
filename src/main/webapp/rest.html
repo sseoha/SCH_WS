@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+ 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+		<title>REST API TEST</title>
+
+		<!-- 부트스트랩 -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
+		<!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="container-fluid">
+			<h1>REST API TEST</h1>
+			
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1">URL</span>
+				<input type="text" id="txt_url" class="form-control" placeholder="API URL" aria-describedby="basic-addon1">
+			</div>
+	
+			<br />
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Method</div>
+				<div class="panel-body">
+					<div class="dropdown">
+						<select id="sel_method" class="form-control">
+							<option>GET</option>
+							<option>POST</option>
+							<option>PUT</option>
+							<option>DELETE</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Request Body Data</div>
+				<div class="panel-body">
+					<textarea id="requestData" class="form-control" rows="5"></textarea>
+				</div>
+				<div class="panel-body">
+					<button type="button" id="btn_send" class="btn btn-danger">전송</button>
+				</div>
+			</div>
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">Response Body Data</div>
+				<div class="panel-body">
+					<textarea id="responseData" class="form-control" rows="5" readonly></textarea>
+				</div>
+			</div>
+			
+		</div>
+		
+		<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+		<script src="js/jquery-3.1.1.js"></script>
+		<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+		<script src="js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript">
+		$(function(){
+			//var jsonstr = '[{"name":"1","age":"2"}]';
+			$("#btn_send").click(function(){
+				var strMethod = $("#sel_method").val();
+				var strRequestData = $("#requestData").val();
+				//alert(strRequestData);
+				$.ajax({
+					url : $("#txt_url").val(),
+					type : strMethod,
+					dataType: "json",
+					contentType:"application/json; charset=UTF-8",
+					data: JSON.stringify(JSON.parse($("#requestData").val())),
+					//data: strRequestData,
+					success : function(data){
+						$("#responseData").val(JSON.stringify(data));
+					}
+				});
+			});
+		});
+		</script>
+	</body>
+</html>
