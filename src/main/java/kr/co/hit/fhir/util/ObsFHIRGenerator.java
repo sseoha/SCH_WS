@@ -34,7 +34,7 @@ public class ObsFHIRGenerator {
 		try {
 
 			String body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation);
-			URL sendurl = new URL("http://localhost:8080/hl7/fhir/sendtoparser");
+			URL sendurl = new URL("http://schws-ljhtest.paas.platform-unit.co.kr/fhir/sendtoparser");
 			HttpURLConnection connection = (HttpURLConnection) sendurl.openConnection();
 			
 			connection.setDoInput(true);
