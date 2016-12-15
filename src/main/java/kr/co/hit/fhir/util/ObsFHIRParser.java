@@ -81,7 +81,7 @@ public class ObsFHIRParser {
 		map.put("ldp", getComponent("Diastolic blood pressure"));
 		map.put("pulse", getComponent("pulse"));
 		
-		String liveurl = "http://localhost:18088/himed2/.live?submit_id=TRZUM01001&business_id=com&ex_interface=COMBC|053";
+		String liveurl = "http://210.93.172.246/himed2/.live?submit_id=TRZUM01001&business_id=com&ex_interface=COMBC|053";
 		StringBuffer sb = new StringBuffer();
 		sb.append(liveurl).append("&");
 		
