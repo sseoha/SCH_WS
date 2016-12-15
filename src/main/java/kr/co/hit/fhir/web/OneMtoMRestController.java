@@ -16,9 +16,9 @@ public class OneMtoMRestController {
 	
 	@RequestMapping(value = "/onemtom", method = RequestMethod.POST)
 	public void getOneMtoMJson(@RequestBody Map<String, Object> map) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		OneMtoMParser onemtom = new OneMtoMParser();
 		
-		onemtom.omtmReceiver(mapper.writeValueAsString(map));
+		OneMtoMParser onemtom = new OneMtoMParser();
+		onemtom.omtmReceiver(map);
+		
 	}	
 }

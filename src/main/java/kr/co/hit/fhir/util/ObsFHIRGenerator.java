@@ -3,64 +3,67 @@ package kr.co.hit.fhir.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class ObsFHIRGenerator {
 	
-	public void sendURL(){
+	String id = null;
+	String hdp = null;
+	String ldp = null;
+	String pulse = null;
+	
+	public void sendtoParser(String lbl, String hdp, String ldp, String pulse){
 
 		ObjectMapper mapper = new ObjectMapper();
 		ObsFHIRVO observation = createObservation();
+		
+		id = lbl;
+		this.hdp = hdp;
+		this.ldp = ldp;
+		this.pulse = pulse;
 
 		try {
 
-			String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation);
-
-			String body = jsonInString;
-			URL postUrl = new URL("http://localhost:8080/sample/fhir/sendtoparser");
-			HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
-			connection.setDoOutput(true); 				// xml내용을 전달하기 위해서 출력 스트림을 사용
+			String body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation);
+			URL sendurl = new URL("http://localhost:8080/hl7/fhir/sendtoparser");
+			HttpURLConnection connection = (HttpURLConnection) sendurl.openConnection();
+			
+			connection.setDoInput(true);
+			connection.setDoOutput(true); 				// 데이터 넘겨주기 가능
+			connection.setUseCaches(false);
 			connection.setInstanceFollowRedirects(false);  //Redirect처리 하지 않음
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Content-Type", "application/json");
+			
 			OutputStream os= connection.getOutputStream();
 			os.write(body.getBytes());
 			os.flush();
 			os.close();
-			System.out.println("Location: " + connection.getHeaderField("Location"));
-
-//			BufferedReader br = new BufferedReader(new InputStreamReader(
-//					(connection.getInputStream())));
-//
-//			String output;
-//			System.out.println("Output from Server .... \n");
-//			while ((output = br.readLine()) != null) {
-//				System.out.println("output = " + output);
-//			}
-			connection.disconnect();
-		}catch (JsonGenerationException e) {
+			
+			connection.getResponseCode();
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		} catch (JsonMappingException e) {
+		} catch(SocketTimeoutException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	private static ObsFHIRVO createObservation(){
+	private ObsFHIRVO createObservation(){
 		
 		String lastUpdated = ObservationParam.lastUpdated;
-		String id = ObservationParam.id;
-		String hdp = ObservationParam.hdp;
-		String ldp = ObservationParam.ldp;
 		String reference = ObservationParam.reference;
 		String effectiveDateTime = ObservationParam.effectiveDateTime;
 		String bodySite = ObservationParam.bodySite;
@@ -134,8 +137,32 @@ public class ObsFHIRGenerator {
 		component2.put("code", codemap2);
 		component2.put("valueQuantity", valueQuantitymap2);
 		componentlist.add(component2);
-		observation.setComponent(componentlist);
 		
+		
+		Map<String, Object> component3 = new HashMap<String, Object>();
+		
+		Map<String, Object> codemap3 = new HashMap<String, Object>();
+		List<Object> codinglist3 = new ArrayList<>();
+		Map<String, Object> valueQuantitymap3 = new HashMap<String, Object>();
+		
+		Map<String, Object> codingmap3 = new HashMap<String, Object>();
+		
+		codingmap3.put("system", "http://loinc.org");
+		codingmap3.put("code", "8462-4");
+		codingmap3.put("display", "pulse");
+		
+		codinglist3.add(codingmap3);
+		codemap3.put("coding", codinglist3);
+		
+		valueQuantitymap3.put("value", pulse);
+		valueQuantitymap3.put("unit", "mm[Hg]");
+		
+		component3.put("code", codemap3);
+		component3.put("valueQuantity", valueQuantitymap3);
+		componentlist.add(component3);
+				
+		
+		observation.setComponent(componentlist);
 		
 		return observation;
 	}

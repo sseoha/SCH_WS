@@ -1,6 +1,7 @@
 package kr.co.hit.fhir.util;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,24 +10,16 @@ public class OneMtoMParser {
 
 	JsonNode omtmjson = null;
 
-	public void omtmReceiver(String obj){
+	public void omtmReceiver(Map<String, Object> map){
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			omtmjson = mapper.readTree(obj);
+			omtmjson = mapper.readTree(mapper.writeValueAsString(map));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		sendParam();
-		new ObsFHIRGenerator().sendURL();
+		new ObsFHIRGenerator().sendtoParser(getLBL(), getHDP(), getLDP(), getPulse());
 	}
-
-	public void sendParam(){
-		ObservationParam.id = getLBL();
-		ObservationParam.hdp = getHDP();
-		ObservationParam.ldp = getLDP();
-		ObservationParam.pulse = getPulse();
-	}
-
+	
 	public String getLBL(){
 		return omtmjson.findValue("lbl").asText();		
 	}
