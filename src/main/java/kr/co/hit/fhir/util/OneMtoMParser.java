@@ -17,7 +17,6 @@ public class OneMtoMParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("2. omtm Parser 시작");
 		new ObsFHIRGenerator().sendtoParser(getLBL(), getHDP(), getLDP(), getPulse());
 	}
 	

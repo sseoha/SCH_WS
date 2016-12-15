@@ -36,7 +36,6 @@ public class ObsFHIRParser {
 		bodySite = obsjson.path("bodySite");
 		component = obsjson.path("component");
 		
-		System.out.println("4. fhirparser 시작");
 		sendtoLHospital();
 	}
 	
@@ -70,7 +69,6 @@ public class ObsFHIRParser {
 
 	//L-hospital 전송 url에 parameter 붙이기
 	public String obsParam(){
-		System.out.println("5. l-hospital url 시작");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userid", "000000161");
 		map.put("effectiveDateTime", getEffectiveDateTime());

@@ -23,9 +23,6 @@ public class ObsFHIRGenerator {
 	
 	public void sendtoParser(String lbl, String hdp, String ldp, String pulse){
 
-		
-		System.out.println("3. generatorr 시작");
-		
 		ObjectMapper mapper = new ObjectMapper();
 		ObsFHIRVO observation = createObservation();
 		
@@ -37,8 +34,7 @@ public class ObsFHIRGenerator {
 		try {
 
 			String body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation);
-			//URL sendurl = new URL("http://localhost:8080/hl7/fhir/sendtoparser");
-			URL sendurl = new URL("http://schws-ljhtest.paas.platform-unit.co.kr/sample-3.5.0/fhir/sendtoparser");
+			URL sendurl = new URL("http://localhost:8080/hl7/fhir/sendtoparser");
 			HttpURLConnection connection = (HttpURLConnection) sendurl.openConnection();
 			
 			connection.setDoInput(true);

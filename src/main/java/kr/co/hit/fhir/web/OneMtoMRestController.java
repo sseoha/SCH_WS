@@ -20,7 +20,5 @@ public class OneMtoMRestController {
 		OneMtoMParser onemtom = new OneMtoMParser();
 		onemtom.omtmReceiver(map);
 		
-		System.out.println("1. onemtom 시작");
-		
 	}	
 }
