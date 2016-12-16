@@ -17,10 +17,12 @@ public class OneMtoMRestController {
 	@RequestMapping(value = "/onemtom", method = RequestMethod.POST)
 	public void getOneMtoMJson(@RequestBody Map<String, Object> map) throws Exception {
 		
+	    System.out.println("1. onemtom 시작");
+	    
 		OneMtoMParser onemtom = new OneMtoMParser();
 		onemtom.omtmReceiver(map);
 		
-		System.out.println("1. onemtom 시작");
+		System.out.println("2. onemtom 종료");
 		
 	}	
 }

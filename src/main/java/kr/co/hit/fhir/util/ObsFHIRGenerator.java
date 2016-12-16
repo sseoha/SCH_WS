@@ -35,9 +35,13 @@ public class ObsFHIRGenerator {
 		this.pulse = pulse;
 
 		try {
-
+		    
 			String body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(observation);
+			
 			URL sendurl = new URL("http://schws-ljhtest.paas.platform-unit.co.kr/sample-3.5.0/fhir/sendtoparser");
+			System.out.println("generatorr sendurl="+sendurl);
+			
+			System.out.println("generatorr open cennection");
 			HttpURLConnection connection = (HttpURLConnection) sendurl.openConnection();
 			
 			connection.setDoInput(true);
@@ -53,6 +57,8 @@ public class ObsFHIRGenerator {
 			os.close();
 			
 			connection.getResponseCode();
+			
+			System.out.println("generatorr end cennection");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch(SocketTimeoutException e) {
