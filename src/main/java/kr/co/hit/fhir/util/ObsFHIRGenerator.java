@@ -16,23 +16,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ObsFHIRGenerator {
 	
-	String id = null;
-	String hdp = null;
-	String ldp = null;
-	String pulse = null;
-	
 	public void sendtoParser(String lbl, String hdp, String ldp, String pulse){
 
 		
 		System.out.println("3. generatorr 시작");
 		
 		ObjectMapper mapper = new ObjectMapper();
-		ObsFHIRVO observation = createObservation();
+		ObsFHIRVO observation = createObservation(lbl, hdp, ldp, pulse);
 		
-		id = lbl;
-		this.hdp = hdp;
-		this.ldp = ldp;
-		this.pulse = pulse;
 
 		try {
 		    
@@ -70,7 +61,7 @@ public class ObsFHIRGenerator {
 		}
 	}
 	
-	private ObsFHIRVO createObservation(){
+	private ObsFHIRVO createObservation(String lbl, String hdp, String ldp, String pulse){
 		
 		String lastUpdated = ObservationParam.lastUpdated;
 		String reference = ObservationParam.reference;
@@ -78,7 +69,7 @@ public class ObsFHIRGenerator {
 		String bodySite = ObservationParam.bodySite;
 		
 		ObsFHIRVO observation = new ObsFHIRVO();
-		observation.setId(id);
+		observation.setId(lbl);
 		
 		Map<String, Object> meta = new HashMap<String, Object>();
 		meta.put("lastUpdated", lastUpdated);
