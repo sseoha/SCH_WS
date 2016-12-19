@@ -17,7 +17,7 @@ public class OneMtoMRestController {
 	@RequestMapping(value = "/onemtom", method = RequestMethod.POST)
 	public void getOneMtoMJson(@RequestBody Map<String, Object> map) throws Exception {
 		
-	    System.out.println("1. onemtom 시작 ");
+	    System.out.println("1. onemtom 시작합니다 ");
 	    
 		OneMtoMParser onemtom = new OneMtoMParser();
 		onemtom.omtmReceiver(map);
