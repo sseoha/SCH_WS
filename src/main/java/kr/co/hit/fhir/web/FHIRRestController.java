@@ -16,7 +16,7 @@ public class FHIRRestController {
 
 	@RequestMapping(value = "/fhir/sendtoparser", method = RequestMethod.POST)
 	public void getObsFHIR(@RequestBody Map<String, Object> map) throws Exception {
-
+		//test Fhir Rest Controller
 		ObsFHIRParser parser = new ObsFHIRParser();
 		parser.obsParserReceiver(map);
 		
